@@ -22,6 +22,7 @@ class _ContactListState extends State<ContactList> {
   String debug = "";
   int numdeBug = 0;
   TextEditingController searchCtrlr = TextEditingController();
+  bool promptLocked = false;
   //
 
   List<PopupItem> menu = [
@@ -429,7 +430,7 @@ class _ContactListState extends State<ContactList> {
     searchCtrlr.clear();
     extractContacts();
     prefSetup();
-    delayedLogin();
+    //delayedLogin();
   }
 
   Future<void> reloadList() async {
@@ -455,20 +456,24 @@ class _ContactListState extends State<ContactList> {
   }
 
   rejectAccess() {
-    flush = disguisedToast(
-      secDur: 0,
-      context: context,
-      title: "Warning",
-      titleStyle: cxTextStyle(style: 'bold', colour: colour('lred')),
-      message: "Forbidden Access..\n Please Log-In",
-      buttonName: 'Log-in',
-      buttonColour: colour('dblue'),
-      callback: () async {
-        flush.dismiss(true);
-        loginTrigger();
-      },
-      dismissible: false,
-    );
+    if (promptLocked == false) {
+      promptLocked = true;
+      flush = disguisedToast(
+        secDur: 0,
+        context: context,
+        title: "Warning",
+        titleStyle: cxTextStyle(style: 'bold', colour: colour('lred')),
+        message: "Forbidden Access..\n Please Log-In",
+        buttonName: 'Log-in',
+        buttonColour: colour('red'),
+        callback: () async {
+          flush.dismiss(true);
+          promptLocked = false;
+          loginTrigger();
+        },
+        dismissible: false,
+      );
+    }
   }
 
   statusCodeEval(int? statusCode) async {

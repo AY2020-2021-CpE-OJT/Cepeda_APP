@@ -79,7 +79,7 @@ Widget ctrlrField(
     controller: ctrlrID,
     keyboardType: (inputType == null) ? TextInputType.text : inputType,
     obscureText: (obscure == null) ? false : obscure,
-    autofocus: (autoFocus == null) ? false : autoFocus,
+    //autofocus: (autoFocus == null) ? false :autoFocus,
     //focusNode: focus,
     /*
     onFieldSubmitted: (v) {
