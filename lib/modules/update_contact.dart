@@ -37,21 +37,6 @@ class _UpdateContactState extends State<UpdateContact> {
   late Contact previousContact, updatedContact;
   String contactIdentifier = '';
   late Flushbar flush;
-  /*
-  Future<int> deleteContact(String id) async {
-    disguisedToast(context: context, message: 'Deleting Contact:\n ID: ' + id);
-    await Future.delayed(Duration(seconds: 2), () {});
-    String retrievedToken = '';
-    await prefSetup().then((value) => {retrievedToken = value!});
-    final response = await http.delete(
-      Uri.parse('https://nukesite-phonebook-api.herokuapp.com/delete/' + id),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: "Bearer " + retrievedToken
-      },
-    );
-    return (response.statusCode);
-  }*/
 
   Future<int> deleteContact(String id) async {
     disguisedToast(
@@ -205,13 +190,6 @@ class _UpdateContactState extends State<UpdateContact> {
       );
       emptyDetect = false;
     }
-    /*
-    if ((statusCode == 200) || (statusCode == 403)) {
-      await Future.delayed(Duration(seconds: 3), () {});
-      Navigator.pop(context, statusCode);
-    } else if (emptyDetect) {
-      emptyDetect = false;
-    }*/
   }
 
   @override
@@ -223,32 +201,6 @@ class _UpdateContactState extends State<UpdateContact> {
           widget.initialLastName, widget.initialContacts);
       contactIdentifier = widget.contactID;
       resetCtrlrFields();
-      /*
-      firstNameCtrlr = TextEditingController(text: widget.initialFirstName);
-      lastNameCtrlr = TextEditingController(text: widget.initialLastName);
-      contactIdentifier = widget.contactID;
-      List<String> contactsToDisplay = <String>[];
-      contactsToDisplay.clear();
-      contactNumCtrlr.clear();
-      contactsToDisplay = widget.initialContacts;
-      print("IN:" + widget.initialContacts.length.toString());
-      final int edge = widget.initialContacts.length;
-
-      for (int i = 0; i < edge; i++) {
-        contactsToDisplay.add(widget.initialContacts[i]);
-        if (i < edge) {
-          contactNumCtrlr.insert(
-              0, TextEditingController(text: widget.initialContacts[i]));
-        }
-        _count++;
-        print("i: " +
-            i.toString() +
-            " / _count: " +
-            _count.toString() +
-            " / inserted: " +
-            widget.initialContacts[i]);
-      }
-      contactsSize = widget.initialContacts.length;*/
     });
   }
 
@@ -385,9 +337,6 @@ class _UpdateContactState extends State<UpdateContact> {
                   // >>>>>>>>>>>>>>>>>>>>>>>>>>>> DELETE BUTTON HERE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                   deleteContactPrompt(contactIdentifier, firstNameCtrlr.text,
                       lastNameCtrlr.text);
-                  /*
-                  final statusCode = await deleteContact(contactIdentifier);
-                  Navigator.pop(context, statusCode);*/
                 },
                 icon: Icon(Icons.delete_forever),
                 text: "Delete",
@@ -444,40 +393,7 @@ class _UpdateContactState extends State<UpdateContact> {
                 selectedColor: colour('sel'),
                 next: true,
                 autoFocus: true,
-                inputType: TextInputType
-                    .phone), /*TextFormField(
-              //maxLength: 12,
-              controller: contactNumCtrlr[index],
-              textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.done,
-              decoration: new InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: color('sel'),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: color('def'),
-                  ),
-                ),
-
-                disabledBorder: InputBorder.none,
-                /*
-                  errorText: (contactNumCtrlr[index].text.isNotEmpty)
-                  ? null
-                  : "Please enter a number",
-                   errorBorder: OtlinedInputBorder, */
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                labelText: 'Contact Number',
-                labelStyle: cxTextStyle('bold', color('sel'), 15),
-                //errorBorder:
-              ),
-              style: cxTextStyle('bold', color('def'), 15),
-            ),*/
+                inputType: TextInputType.phone),
           ),
         ],
       ),

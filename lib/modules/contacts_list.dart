@@ -32,7 +32,7 @@ class _ContactListState extends State<ContactList> {
     //PopupItem(3, "DevTest-sp"),
     //PopupItem(4, "DevTest-sb"),
     //PopupItem(5, "DevTest-newGet"),
-    //PopupItem(0, "debugTesting"),
+    //PopupItem(0, "nukeTest"), // <<< UNCOMMENT THIS TO ACTIVATE NUKE TEST AREA/BUTTON
   ];
   String _selectedChoices = "none";
   void _select(String choice) {
@@ -48,6 +48,7 @@ class _ContactListState extends State<ContactList> {
         tokenStore.setString('token', '');
         reloadList();
         break;
+      /*
       case 'DevTest-sp':
         prefSetup()
             .then((value) => {print("TOKEN FROM PREFERENCES: " + value!)});
@@ -55,8 +56,9 @@ class _ContactListState extends State<ContactList> {
         break;
       case 'DevTest-newGet':
         //newGet();
-        break;
-      case 'debugTesting':
+        break;*/
+      case 'nukeTest':
+        // NUKE AREA
         disguisedPrompt(
             context: context,
             title: 'Confirm Delete',
@@ -75,23 +77,6 @@ class _ContactListState extends State<ContactList> {
                   numdeBug--;
                   print(numdeBug);
                 }));
-
-        //print(encryptPassword('4live'));
-        /*print(checkPassword(
-            '\$2b\$10\$d2HZElXeAkNYaejUrz0YeeDmGcdSlPR38szk.XBQL/A7hPobHp9o.'));*/
-        /*
-        setState(() {
-          numdeBug++;
-        });*/
-        /*
-        disguisedToast(
-          context: context,
-          message: 'debugTesting' + debug,
-          buttonName: 'Log-in',
-          msgColor: colour(colour: 'red'),
-          secDur: 3,
-          callback: () async => loginTrigger(),
-        );*/
         break;
       default:
         print(_selectedChoices);
