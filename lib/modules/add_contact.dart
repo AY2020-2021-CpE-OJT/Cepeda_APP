@@ -287,7 +287,7 @@ class _CreateNewContactState extends State<CreateNewContact> {
                 selectedColor: colour('sel'),
                 errorColor: Colors.red,
                 next: true,
-                autoFocus: true,
+                autoFocus: false,
                 inputType: TextInputType.phone),
           ),
         ],

@@ -388,10 +388,6 @@ class _ContactListState extends State<ContactList> {
                         builder: (context) => CreateNewContact()));
                 await Future.delayed(Duration(seconds: 2), () {});
                 statusCodeEval(statusCode);
-                await Future.delayed(Duration(seconds: 3), () {});
-                setState(() {
-                  reloadList();
-                });
               } else {
                 rejectAccess();
               }
@@ -433,6 +429,7 @@ class _ContactListState extends State<ContactList> {
 
   Future<void> reloadList() async {
     setState(() {
+      searchString = searchCtrlr.text;
       contactsList.clear();
     });
     //disguisedToast(context: context, message: "Reloading...");
