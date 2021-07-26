@@ -231,6 +231,89 @@ class FAB extends StatelessWidget {
   }
 }
 
+TextButton cxTextButton({
+  required VoidCallback onPressed,
+  String? text,
+  TextStyle? textStyle,
+  Color? buttonColour,
+}) {
+  return TextButton(
+    onPressed: () {
+      // >>>>>>>>>>>>>>>>>>>>>>>>>>>> CALLBACK BUTTON HERE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      onPressed();
+    },
+    //icon: icon,
+    child: Text((text != null) ? text : '',
+        style: (textStyle != null)
+            ? textStyle
+            : cxTextStyle(colour: colour(''), size: 16)),
+    style: ButtonStyle(
+        backgroundColor: (buttonColour != null)
+            ? MaterialStateProperty.all<Color>(buttonColour)
+            : MaterialStateProperty.all<Color>(Colors.grey)),
+  );
+}
+
+Card cxIconButton({
+  required VoidCallback onPressed,
+  Icon? icon,
+  Color? buttonColour,
+  Color? backgroundColour,
+  Color? borderColour,
+}) {
+  return Card(
+    color: (backgroundColour != null) ? buttonColour : Colors.black45,
+    shape: ContinuousRectangleBorder(
+        side: BorderSide(
+            color: (borderColour != null) ? borderColour : Colors.white,
+            width: 1.5),
+        borderRadius: BorderRadius.circular(10)),
+    child: IconButton(
+      onPressed: () {
+        // >>>>>>>>>>>>>>>>>>>>>>>>>>>> CALLBACK BUTTON HERE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        onPressed();
+      },
+      icon: (icon != null) ? icon : Icon(Icons.warning),
+      color: (buttonColour != null) ? buttonColour : Colors.white,
+    ),
+    /*
+    
+    child: Text((text != null) ? text : '',
+        style: (textStyle != null)
+            ? textStyle
+            : cxTextStyle(colour: colour(''), size: 16)),
+    style: ButtonStyle(
+      
+        backgroundColor: (buttonColour != null)
+            ? MaterialStateProperty.all<Color>(buttonColour)
+            : MaterialStateProperty.all<Color>(Colors.grey)),*/
+  );
+}
+
+/*
+class CxTextButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final Icon? icon;
+  final String? text;
+  final 
+  final Color? buttonColour, ;
+
+  CxTextButton(
+      {required this.onPressed,
+      this.icon,
+      this.text,
+      this.textStyle,
+      this.buttonColour,
+      this.textColour});
+  @override
+  Widget build(BuildContext context) {
+    
+   
+    
+    );
+  }
+}
+*/
 void debugToast(context) {
   disguisedToast(context: context, message: "TEST");
 }
@@ -260,7 +343,7 @@ Flushbar disguisedToast(
     mainButton: (callback != null)
         ? TextButton(
             child: Text(
-              (buttonName != null) ? buttonName : 'BUTTON',
+              (buttonName != null) ? buttonName : ' ',
               style:
                   (buttonTextStyle != null) ? buttonTextStyle : cxTextStyle(),
             ),

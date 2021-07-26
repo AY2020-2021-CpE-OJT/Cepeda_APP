@@ -134,34 +134,6 @@ class _ContactListState extends State<ContactList> {
     return (response.statusCode);
   }
 
-  Future<int> filterContacts(String identifier) async {
-    String retrievedToken = '';
-    await prefSetup().then((value) => {
-          /*print("TOKEN FROM PREFERENCES: " + value!)*/ retrievedToken = value!
-        });
-    final response = await http.get(
-      Uri.parse(
-          'https://nukesite-phonebook-api.herokuapp.com/search/' + identifier),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: "Bearer " + retrievedToken
-      },
-    );
-    // print("RESPONSE BODY: " + response.body.toString());
-    if (response.body.toString() == 'Forbidden') {
-      rejectAccess();
-      setState(() {
-        contactsList.clear();
-      });
-    } else {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        contactsList = list.map((model) => Contact.fromJson(model)).toList();
-      });
-    }
-    return (response.statusCode);
-  }
-
   Future<String?> prefSetup() async {
     tokenStore = await SharedPreferences.getInstance();
     if (tokenStore.getString('token') != null) {
@@ -250,20 +222,36 @@ class _ContactListState extends State<ContactList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // SEARCH BAR SHOULD BE HERE
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: ctrlrField(
-                context: context,
-                fieldPrompt: 'Search',
-                ctrlrID: searchCtrlr,
-                onChangeString: (String value) {
-                  searchString = value;
-                  extractContacts();
-                },
-                defaultColor: colour(''),
-                selectedColor: colour('sel'),
-                next: true,
-                autoFocus: false),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: ctrlrField(
+                      context: context,
+                      fieldPrompt: 'Search',
+                      ctrlrID: searchCtrlr,
+                      onChangeString: (String value) {
+                        searchString = value;
+                        reloadList();
+                      },
+                      defaultColor: colour(''),
+                      selectedColor: colour('sel'),
+                      next: true,
+                      autoFocus: false),
+                ),
+              ),
+              cxIconButton(
+                  onPressed: () {
+                    searchCtrlr.clear();
+                    searchString = '';
+                    reloadList();
+                  },
+                  icon: Icon(Icons.search_off),
+                  borderColour: colour('grey'),
+                  buttonColour: colour('blue')),
+              vfill(12),
+            ],
           ),
 
           //TextFormField(decoration: new InputDecoration(labelText: "test")),
