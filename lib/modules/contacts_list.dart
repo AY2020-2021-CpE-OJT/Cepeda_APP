@@ -23,6 +23,7 @@ class _ContactListState extends State<ContactList> {
   int numdeBug = 0;
   TextEditingController searchCtrlr = TextEditingController();
   bool promptLocked = false;
+  String searchString = "";
   //
 
   List<PopupItem> menu = [
@@ -104,8 +105,15 @@ class _ContactListState extends State<ContactList> {
     await prefSetup().then((value) => {
           /*print("TOKEN FROM PREFERENCES: " + value!)*/ retrievedToken = value!
         });
+    String extractionURL = "";
+    if (searchString.isEmpty) {
+      extractionURL = 'https://nukesite-phonebook-api.herokuapp.com/all/';
+    } else {
+      extractionURL =
+          'https://nukesite-phonebook-api.herokuapp.com/search/' + searchString;
+    }
     final response = await http.get(
-      Uri.parse('https://nukesite-phonebook-api.herokuapp.com/all/'),
+      Uri.parse(extractionURL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: "Bearer " + retrievedToken
@@ -232,6 +240,7 @@ class _ContactListState extends State<ContactList> {
             selectables: menu,
             onSelection: (String value) => setState(() {
               _select(value);
+              FocusManager.instance.primaryFocus?.unfocus();
             }),
           )
         ],
@@ -248,11 +257,8 @@ class _ContactListState extends State<ContactList> {
                 fieldPrompt: 'Search',
                 ctrlrID: searchCtrlr,
                 onChangeString: (String value) {
-                  if (value == '') {
-                    extractContacts();
-                  } else {
-                    filterContacts(value);
-                  }
+                  searchString = value;
+                  extractContacts();
                 },
                 defaultColor: colour(''),
                 selectedColor: colour('sel'),
@@ -371,7 +377,10 @@ class _ContactListState extends State<ContactList> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FAB(
-            onPressed: () => reloadList(),
+            onPressed: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              reloadList();
+            },
             icon: Icon(Icons.refresh),
             text: "Refresh",
             background: colour('dblue'),
@@ -382,6 +391,7 @@ class _ContactListState extends State<ContactList> {
               // >>>>>>>>>>>>>>>>>>>>>>>>>>>> PUSH TO ADD SCREEN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
               /*print((tokenStore.getString('token').toString().isNotEmpty &&
                   tokenStore.getString('token').toString() != 'rejected'));*/
+              FocusManager.instance.primaryFocus?.unfocus();
               if (tokenStore.getString('token').toString().isNotEmpty &&
                   tokenStore.getString('token').toString() != 'rejected') {
                 final statusCode = await Navigator.push(
@@ -467,6 +477,7 @@ class _ContactListState extends State<ContactList> {
         buttonName: 'Log-in',
         buttonColour: colour('red'),
         callback: () async {
+          FocusManager.instance.primaryFocus?.unfocus();
           flush.dismiss(true);
           promptLocked = false;
           loginTrigger();

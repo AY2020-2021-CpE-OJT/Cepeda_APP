@@ -65,8 +65,8 @@ Widget ctrlrField(
     Color? defaultColor,
     Color? errorColor,
     TextInputType? inputType,
-    bool? obscure = false,
-    bool? autoFocus = false,
+    bool? obscure,
+    bool? autoFocus,
     bool? next,
     Function(String)? onChangeString}) {
   return TextFormField(
@@ -79,21 +79,12 @@ Widget ctrlrField(
     controller: ctrlrID,
     keyboardType: (inputType == null) ? TextInputType.text : inputType,
     obscureText: (obscure == null) ? false : obscure,
-    //autofocus: (autoFocus == null) ? false :autoFocus,
-    //focusNode: focus,
-    /*
-    onFieldSubmitted: (v) {
-      FocusScope.of(context).requestFocus();
-    },*/
+    autofocus: (autoFocus == null) ? false : autoFocus,
+
     textInputAction: (next != null && next == true)
         ? TextInputAction.next
         : TextInputAction.done,
     textCapitalization: TextCapitalization.sentences,
-    //focusNode: currentNodeID,
-    /*
-    onFieldSubmitted: (term) {
-      _fieldFocusChange(context, currentNodeID, nextNodeID);
-    },*/
     decoration: new InputDecoration(
       border: InputBorder.none,
       focusedBorder: OutlineInputBorder(
