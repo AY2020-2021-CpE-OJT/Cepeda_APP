@@ -183,7 +183,10 @@ class SelectionMenu extends StatelessWidget {
         elevation: 20,
         enabled: true,
         icon: Icon(Icons.settings),
-        onSelected: (value) => onSelection(value.toString()),
+        onSelected: (value) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          onSelection(value.toString());
+        },
         itemBuilder: (context) {
           return selectables.map((PopupItem choice) {
             return PopupMenuItem(
@@ -218,6 +221,7 @@ class FAB extends StatelessWidget {
     return FloatingActionButton.extended(
       onPressed: () {
         // >>>>>>>>>>>>>>>>>>>>>>>>>>>> CALLBACK BUTTON HERE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        FocusManager.instance.primaryFocus?.unfocus();
         onPressed();
       },
       icon: icon,
@@ -240,6 +244,7 @@ TextButton cxTextButton({
   return TextButton(
     onPressed: () {
       // >>>>>>>>>>>>>>>>>>>>>>>>>>>> CALLBACK BUTTON HERE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      FocusManager.instance.primaryFocus?.unfocus();
       onPressed();
     },
     //icon: icon,
@@ -271,6 +276,7 @@ Card cxIconButton({
     child: IconButton(
       onPressed: () {
         // >>>>>>>>>>>>>>>>>>>>>>>>>>>> CALLBACK BUTTON HERE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        FocusManager.instance.primaryFocus?.unfocus();
         onPressed();
       },
       icon: (icon != null) ? icon : Icon(Icons.warning),
@@ -351,7 +357,10 @@ Flushbar disguisedToast(
                 backgroundColor: (buttonColour != null)
                     ? MaterialStateProperty.all<Color>(buttonColour)
                     : MaterialStateProperty.all<Color>(Colors.grey)),
-            onPressed: () => callback(),
+            onPressed: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              callback();
+            },
           )
         : null,
     duration: (secDur == null)
@@ -362,7 +371,7 @@ Flushbar disguisedToast(
     isDismissible: (dismissible != null) ? dismissible : true,
     dismissDirection: FlushbarDismissDirection.HORIZONTAL,
     forwardAnimationCurve: Curves.fastOutSlowIn,
-    onStatusChanged: (status) async {
+    onStatusChanged: (status) {
       if ((status == FlushbarStatus.DISMISSED) && (onDismiss != null)) {
         onDismiss();
       }
@@ -412,7 +421,8 @@ Flushbar disguisedPrompt(
       children: [
         TextButton(
             onPressed: (button1Callback != null)
-                ? () async {
+                ? () {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     flushbar.dismiss(true);
                     button1Callback();
                   }
@@ -427,8 +437,13 @@ Flushbar disguisedPrompt(
                     : MaterialStateProperty.all<Color>(Colors.grey))),
         vfill(12),
         TextButton(
-            onPressed:
-                (button2Callback != null) ? () => button2Callback() : null,
+            onPressed: (button2Callback != null)
+                ? () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    flushbar.dismiss(true);
+                    button2Callback();
+                  }
+                : null,
             child: Text(
               (button2Name != null) ? button2Name : 'BUTTON',
               style: cxTextStyle(colour: button2TextColour),

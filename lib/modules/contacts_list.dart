@@ -379,7 +379,7 @@ class _ContactListState extends State<ContactList> {
               // >>>>>>>>>>>>>>>>>>>>>>>>>>>> PUSH TO ADD SCREEN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
               /*print((tokenStore.getString('token').toString().isNotEmpty &&
                   tokenStore.getString('token').toString() != 'rejected'));*/
-              FocusManager.instance.primaryFocus?.unfocus();
+              //FocusManager.instance.primaryFocus?.unfocus();
               if (tokenStore.getString('token').toString().isNotEmpty &&
                   tokenStore.getString('token').toString() != 'rejected') {
                 final statusCode = await Navigator.push(
